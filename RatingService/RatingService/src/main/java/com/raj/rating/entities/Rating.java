@@ -15,6 +15,9 @@ public class Rating {
     private int rating;
     private String feedback;
 
+
+
+
     public String getRatingId() {
         return ratingId;
     }
@@ -61,7 +64,9 @@ public class Rating {
         this.hotelId = hotelId;
         this.rating = rating;
         this.feedback = feedback;
+
     }
+
 
     public Rating() {
     }
