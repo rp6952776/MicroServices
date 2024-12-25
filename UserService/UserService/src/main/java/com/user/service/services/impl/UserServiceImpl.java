@@ -39,13 +39,13 @@ public class UserServiceImpl implements UserService {
 
         List<User> users = userRepository.findAll();
         for(User user : users){
-            Rating[] ratingsOfUser = restTemplate.getForObject("http://RATINGMICROSERVICE/ratings/users/"+user.getUserId(), Rating[].class);
+            Rating[] ratingsOfUser = restTemplate.getForObject("http://RATING-SERVICE/ratings/users/"+user.getUserId(), Rating[].class);
 
             List<Rating> ratings = Arrays.stream(ratingsOfUser).toList();
 
             List<Rating> ratingList = ratings.stream().map(rating -> {
 
-                ResponseEntity<Hotel> forEntity = restTemplate.getForEntity("http://HOTELSERVICE/hotels/"+rating.getHotelId(), Hotel.class);
+                ResponseEntity<Hotel> forEntity = restTemplate.getForEntity("http://HOTEL-SERVICE/hotels/"+rating.getHotelId(), Hotel.class);
                 Hotel hotel = forEntity.getBody();
 
                 rating.setHotel(hotel);
@@ -61,13 +61,13 @@ public class UserServiceImpl implements UserService {
     public User getUserByUserId(String userId) {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User Not Found with Id" + userId));
-        Rating[] ratingsOfUser = restTemplate.getForObject("http://RATINGMICROSERVICE/ratings/users/"+user.getUserId(), Rating[].class);
+        Rating[] ratingsOfUser = restTemplate.getForObject("http://RATING-SERVICE/ratings/users/"+user.getUserId(), Rating[].class);
 
         List<Rating> ratings = Arrays.stream(ratingsOfUser).toList();
 
         List<Rating> ratingList = ratings.stream().map(rating -> {
 
-            ResponseEntity<Hotel> forEntity = restTemplate.getForEntity("http://HOTELSERVICE/hotels/"+rating.getHotelId(), Hotel.class);
+            ResponseEntity<Hotel> forEntity = restTemplate.getForEntity("http://HOTEL-SERVICE/hotels/"+rating.getHotelId(), Hotel.class);
             Hotel hotel = forEntity.getBody();
 
             rating.setHotel(hotel);
